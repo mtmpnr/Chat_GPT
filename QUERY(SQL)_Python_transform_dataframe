@@ -1,0 +1,35 @@
+pip install pymssql,
+
+import pymssql
+import pandas as pd
+
+# SQL veritabanına bağlanın
+conn = pymssql.connect(
+    host="localhost",
+    user="myusername",
+    password="mypassword",
+    database="mydatabase",
+    charset='utf8'
+)
+
+# Verileri almak için bir SQL sorgusu yazın
+query = "SELECT * FROM mytable"
+
+# Verileri almak için bir cursor oluşturun
+cursor = conn.cursor()
+
+# SQL sorgusunu çalıştırın
+cursor.execute(query)
+
+# Sütun isimlerini alın
+columns = [column[0] for column in cursor.description]
+
+# Verileri Pandas DataFrame'e dönüştürün
+data = cursor.fetchall()
+df = pd.DataFrame(data, columns=columns)
+
+# Bağlantıyı kapatın
+conn.close()
+
+# Verileri görüntüleyin
+print(df.head())
