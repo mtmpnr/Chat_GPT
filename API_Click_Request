@@ -1,0 +1,30 @@
+import pandas as pd
+import requests
+from datetime import datetime
+
+# İnternet sitesinden tıklanma verilerini çekmek için API endpoint'ini kullanın
+api_url = "https://example.com/clicks"
+api_key = "your_api_key_here"
+
+headers = {
+    "Authorization": f"Bearer {api_key}"
+}
+
+response = requests.get(api_url, headers=headers)
+
+if response.status_code == 200:
+    click_data = response.json()
+else:
+    print(f"API error: {response.status_code} - {response.text}")
+
+# Tıklama verilerini bir Pandas DataFrame'e aktarın
+df = pd.DataFrame(click_data)
+
+# Sütun isimlerini değiştirin
+df = df.rename(columns={"timestamp": "time", "user_id": "user"})
+
+# Tarih/saat sütununu datetime formatına dönüştürün
+df["time"] = pd.to_datetime(df["time"], unit="s")
+
+# Veri setinin ilk 5 satırını görüntüleyin
+print(df.head())
