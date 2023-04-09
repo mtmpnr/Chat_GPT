@@ -1,0 +1,45 @@
+import random
+import pandas as pd
+import string
+
+# Invoice numarası oluşturma fonksiyonu
+def generate_invoice():
+    first_letter = random.choice(string.ascii_uppercase)
+    numbers = ''.join(random.choices(string.digits, k=4))
+    return first_letter + numbers
+
+# Stock Code oluşturma fonksiyonu
+def generate_stock_code():
+    letters = ''.join(random.choices(string.ascii_uppercase, k=2))
+    numbers = ''.join(random.choices(string.digits, k=4))
+    return letters + numbers
+
+# Verileri tutacak boş listeler
+invoices = []
+quantities = []
+prices = []
+countries = []
+dates = []
+stock_codes = []
+
+# 50000 satır için verileri oluşturma
+for i in range(50000):
+    invoices.append(generate_invoice())
+    quantities.append(random.randint(1, 50))
+    prices.append(round(random.uniform(1.23, 4000), 2))
+    countries.append(random.choice(['USA', 'FRANCE', 'ITALY', 'TURKEY', 'SPAIN', 'GREECE', 'RUSSIA', 'BAE', 'JAPAN', 'BRAZIL', 'CANADA', 'KOREA', 'UK']))
+    dates.append(pd.Timestamp.now().strftime("%y:%m:%d %H:%M:%S"))
+    stock_codes.append(generate_stock_code())
+
+# DataFrame oluşturma
+df = pd.DataFrame({
+    'Invoice': invoices,
+    'Quantity': quantities,
+    'Price': prices,
+    'Country': countries,
+    'Date': dates,
+    'Stock Code': stock_codes
+})
+
+# DataFrame'i CSV dosyasına yazma
+df.to_csv('invoice_data.csv', index=False)
