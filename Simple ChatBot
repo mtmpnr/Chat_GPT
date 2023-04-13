@@ -1,0 +1,39 @@
+import nltk
+from nltk.chat.util import Chat, reflections
+
+pairs = [
+    [
+        r"merhaba|merhabalar|hey|selam",
+        ["Merhaba, nasıl yardımcı olabilirim?"]
+    ],
+    [
+        r"nasılsın|naber|n'aber",
+        ["İyiyim, teşekkür ederim. Sen nasılsın?"]
+    ],
+    [
+        r"ben de iyiyim|ben de teşekkür ederim",
+        ["Ne yapabilirim senin için?"]
+    ],
+    [
+        r"CRM hakkında bilgi almak istiyorum",
+        ["Tabii, hangi konuda bilgi almak istersin?"]
+    ],
+    [
+        r"ürünleriniz hakkında",
+        ["CRM yazılımımız birçok farklı özellik sunmaktadır. Hangi özellik hakkında bilgi almak istersiniz?"]
+    ],
+    [
+        r"teşekkür ederim|sağol|teşekkürler",
+        ["Bir şey için değil, her zaman buradayım!"]
+    ],
+]
+
+chatbot = Chat(pairs, reflections)
+
+def chatbot_response(text):
+    return chatbot.respond(text)
+
+print("Chatbot: Merhaba, benimle konuşmak için buradayım. Nasıl yardımcı olabilirim?")
+while True:
+    user_input = input("Sen: ")
+    print("Chatbot: " + chatbot_response(user_input))
